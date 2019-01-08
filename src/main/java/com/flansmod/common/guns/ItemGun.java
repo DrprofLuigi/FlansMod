@@ -880,7 +880,7 @@ public class ItemGun extends Item implements IPaintableItem
 			ItemStack bulletStack = getBulletItemStack(gunstack, i);
 			
 			//If there is no magazine, if the magazine is empty or if this is a forced reload
-			if(bulletStack == null || bulletStack.isEmpty() || bulletStack.getItemDamage() == bulletStack.getMaxDamage() || forceReload)
+			if(bulletStack == null || bulletStack.isEmpty() /*|| bulletStack.getItemDamage() == bulletStack.getMaxDamage() */|| forceReload)
 			{
 				//Iterate over all inventory slots and find the magazine / bullet item with the most bullets
 				int bestSlot = -1;
@@ -905,14 +905,14 @@ public class ItemGun extends Item implements IPaintableItem
 					ShootableType newBulletType = ((ItemShootable)newBulletStack.getItem()).type;
 					
 					//Unload the old magazine (Drop an item if it is required and the player is not in creative mode)
-					if(bulletStack != null && bulletStack.getItem() instanceof ItemShootable && ((ItemShootable)bulletStack.getItem()).type.dropItemOnReload != null && !isCreative && bulletStack.getItemDamage() == bulletStack.getMaxDamage())
+					if(bulletStack != null && bulletStack.getItem() instanceof ItemShootable /*&& ((ItemShootable)bulletStack.getItem()).type.dropItemOnReload != null */&& !isCreative && bulletStack.getItemDamage() == bulletStack.getMaxDamage())
 					{
 						if(!world.isRemote)
 							dropItem(world, entity, ((ItemShootable)bulletStack.getItem()).type.dropItemOnReload);
 					}
 					
 					//The magazine was not finished, pull it out and give it back to the player or, failing that, drop it
-					if(bulletStack != null && !bulletStack.isEmpty() && bulletStack.getItemDamage() < bulletStack.getMaxDamage())
+					if(bulletStack != null && !bulletStack.isEmpty() && bulletStack.getItemDamage() <= bulletStack.getMaxDamage()) //--------------Changed < to <=
 					{
 						if(!InventoryHelper.addItemStackToInventory(inventory, bulletStack, isCreative))
 						{
