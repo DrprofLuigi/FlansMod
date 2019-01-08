@@ -752,7 +752,7 @@ public class ClientRenderHooks
 						for(int n = 0; n < gunType.numAmmoItemsInGun; n++)
 						{
 							ItemStack bulletStack = ((ItemGun)stack.getItem()).getBulletItemStack(stack, n);
-							if(bulletStack != null && !bulletStack.isEmpty() && bulletStack.getItemDamage() < bulletStack.getMaxDamage())
+							if(bulletStack != null && !bulletStack.isEmpty() && bulletStack.getItemDamage() <= bulletStack.getMaxDamage()) //Changed < to <= to display empty clips
 							{
 								RenderHelper.enableGUIStandardItemLighting();
 								GL11.glEnable(GL12.GL_RESCALE_NORMAL);
